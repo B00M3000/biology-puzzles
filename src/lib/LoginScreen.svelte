@@ -62,11 +62,8 @@
 <div style="width: 100%; max-width: 480px;">
 
   <div style="text-align: center; margin-bottom: 32px;">
-    <div style="display: inline-block; padding: 4px 12px; background: #1a1a2e; color: #f4ede1; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; border-radius: 999px; margin-bottom: 16px;">
-      BIO 101 · STUDY HALL
-    </div>
     <h1 class="bio-display" style="font-size: clamp(32px, 7vw, 52px); font-weight: 800; margin: 0; line-height: 1;">
-      Enzymes <span style="font-style: italic; color: #e84a3f;">&amp;</span> Neurons
+      Enzymes <span style="font-style: italic; color: #e84a3f;">&</span> Neurons
     </h1>
   </div>
 

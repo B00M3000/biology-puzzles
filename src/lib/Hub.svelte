@@ -106,8 +106,15 @@
 <div class="bio-slide-in" style="min-height: 100svh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; position: relative; z-index: 1;">
 <div style="width: 100%; max-width: 480px;">
 
+  <!-- Title -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <h1 class="bio-display" style="font-size: clamp(30px, 7vw, 48px); font-weight: 800; margin: 0; line-height: 1;">
+      Enzymes <span style="font-style: italic; color: #e84a3f;">&</span> Neurons
+    </h1>
+  </div>
+
   <!-- Group bar -->
-  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 28px; padding: 10px 14px; background: #fdfaf3; border: 1.5px solid #1a1a2e22; border-radius: 12px;">
+  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px; padding: 10px 14px; background: #fdfaf3; border: 1.5px solid #1a1a2e22; border-radius: 12px;">
     <div style="width: 32px; height: 32px; background: #1a1a2e; color: #f4ede1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; font-family: 'DM Sans', sans-serif; flex-shrink: 0;">
       {initial}
     </div>
@@ -122,16 +129,6 @@
       <LogOut size={13} />
       Log out
     </button>
-  </div>
-
-  <!-- Title -->
-  <div style="text-align: center; margin-bottom: 28px;">
-    <div style="display: inline-block; padding: 4px 12px; background: #1a1a2e; color: #f4ede1; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; border-radius: 999px; margin-bottom: 14px;">
-      BIO 101 · STUDY HALL
-    </div>
-    <h1 class="bio-display" style="font-size: clamp(30px, 7vw, 48px); font-weight: 800; margin: 0; line-height: 1;">
-      Enzymes <span style="font-style: italic; color: #e84a3f;">&amp;</span> Neurons
-    </h1>
   </div>
 
   <!-- Game cards -->
@@ -154,7 +151,7 @@
         <div style="flex: 1; min-width: 0;">
           <div style="display: flex; align-items: baseline; gap: 7px;">
             <span class="bio-display" style="font-size: 17px; font-weight: 600;">{g.title}</span>
-            <span style="font-size: 11px; opacity: 0.45;">· {g.time}</span>
+            <span style="font-size: {g.time === '∞' ? '16px' : '11px'}; opacity: 0.45; line-height: 1;">· {g.time}</span>
           </div>
           <p style="font-size: 12.5px; margin: 2px 0 0; opacity: 0.65; line-height: 1.3;">{g.desc}</p>
         </div>

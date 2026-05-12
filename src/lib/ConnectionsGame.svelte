@@ -10,18 +10,36 @@
     g.terms.map(term => ({ term, groupIdx: i }))
   );
 
-  const startTime = Date.now();
+  const STATE_KEY = `gamestate:connections:${groupName}`;
 
-  let tiles = $state(shuffle(allTerms));
+  // Load persisted state if available
+  let initState = null;
+  try {
+    const saved = localStorage.getItem(STATE_KEY);
+    if (saved) initState = JSON.parse(saved);
+  } catch (e) {}
+
+  let tiles      = $state(initState ? initState.tiles      : shuffle(allTerms));
+  let solved     = $state(initState ? initState.solved     : []);
+  let mistakes   = $state(initState ? initState.mistakes   : 0);
+  let shaking    = $state(false);
+  let status     = $state(initState ? initState.status     : 'playing');
+  let startTime  = $state(initState ? initState.startTime  : Date.now());
+  let finishTime = $state(initState ? initState.finishTime : null);
+
   let selected = $state([]);
-  let solved = $state([]);
-  let mistakes = $state(0);
-  let shaking = $state(false);
-  let status = $state('playing'); // 'playing' | 'won' | 'lost'
-  let finishTime = $state(null);
+
+  // Persist game state on every change
+  $effect(() => {
+    try {
+      localStorage.setItem(STATE_KEY, JSON.stringify({
+        tiles, solved, mistakes, status, startTime, finishTime,
+      }));
+    } catch (e) {}
+  });
 
   let elapsedSec = $derived(finishTime ? Math.round((finishTime - startTime) / 1000) : 0);
-  // Score = mistakes (lower is better)
+  // Score = mistakes (lower is better); only first result stored per group
   let finalScore = $derived(status === 'won' ? mistakes : 0);
 
   function toggle(term) {
@@ -71,12 +89,14 @@
   }
 
   function reset() {
-    tiles = shuffle(allTerms);
-    selected = [];
-    solved = [];
-    mistakes = 0;
-    shaking = false;
-    status = 'playing';
+    try { localStorage.removeItem(STATE_KEY); } catch (e) {}
+    tiles      = shuffle(allTerms);
+    selected   = [];
+    solved     = [];
+    mistakes   = 0;
+    shaking    = false;
+    status     = 'playing';
+    startTime  = Date.now();
     finishTime = null;
   }
 </script>

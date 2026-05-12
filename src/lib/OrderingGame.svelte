@@ -7,19 +7,36 @@
 
   let { onBack, onScore, onComplete, scores, groupName } = $props();
 
-  const startTime = Date.now();
+  const STATE_KEY = `gamestate:ordering:${groupName}`;
 
-  let order = $state(shuffle(ORDER_STEPS));
-  let checked = $state(false);
-  let status = $state('playing');
-  let attempts = $state(0);
-  let finishTime = $state(null);
+  // Load persisted state if available
+  let initState = null;
+  try {
+    const saved = localStorage.getItem(STATE_KEY);
+    if (saved) initState = JSON.parse(saved);
+  } catch (e) {}
+
+  let order      = $state(initState ? initState.order      : shuffle(ORDER_STEPS));
+  let checked    = $state(initState ? initState.checked    : false);
+  let status     = $state(initState ? initState.status     : 'playing');
+  let attempts   = $state(initState ? initState.attempts   : 0);
+  let startTime  = $state(initState ? initState.startTime  : Date.now());
+  let finishTime = $state(initState ? initState.finishTime : null);
+
+  // Persist game state on every change
+  $effect(() => {
+    try {
+      localStorage.setItem(STATE_KEY, JSON.stringify({
+        order, checked, status, attempts, startTime, finishTime,
+      }));
+    } catch (e) {}
+  });
 
   let dragState = $state(null);
   let cardRefs = {};
 
   let elapsedSec = $derived(finishTime ? Math.round((finishTime - startTime) / 1000) : 0);
-  // Score = attempts (lower is better)
+  // Score = attempts (lower is better); only first result stored per group
   let finalScore = $derived(status === 'done' ? attempts : 0);
 
   function setRef(el, id) {
@@ -73,10 +90,12 @@
   }
 
   function reset() {
-    order = shuffle(ORDER_STEPS);
-    checked = false;
-    status = 'playing';
-    attempts = 0;
+    try { localStorage.removeItem(STATE_KEY); } catch (e) {}
+    order      = shuffle(ORDER_STEPS);
+    checked    = false;
+    status     = 'playing';
+    attempts   = 0;
+    startTime  = Date.now();
     finishTime = null;
   }
 </script>

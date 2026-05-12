@@ -40,12 +40,17 @@
   };
 
   const logout = () => {
+    const prev = groupName;
     groupName = null;
     view = 'hub';
     localStorage.removeItem('group:name');
     completedGames = { binsort: false, connections: false, ordering: false };
     for (const key of KEYS) {
       localStorage.removeItem(`completed:${key}`);
+    }
+    if (prev) {
+      localStorage.removeItem(`gamestate:connections:${prev}`);
+      localStorage.removeItem(`gamestate:ordering:${prev}`);
     }
   };
 
@@ -57,6 +62,10 @@
 
   const recordScore = (gameKey, name, score) => {
     const existing = scores[gameKey] || [];
+    // Connections and ordering only record the first completion per group
+    if (gameKey === 'connections' || gameKey === 'ordering') {
+      if (existing.some(e => e.name === name)) return;
+    }
     const updated = [...existing, { name, score, date: Date.now() }]
       .sort((a, b) => a.score - b.score)
       .slice(0, 20);
