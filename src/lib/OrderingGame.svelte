@@ -1,5 +1,7 @@
 <script>
   import { GripVertical } from 'lucide-svelte';
+  import { flip } from 'svelte/animate';
+  import { cubicOut } from 'svelte/easing';
   import { ORDER_STEPS, shuffle } from './data.js';
   import GameHeader from './GameHeader.svelte';
   import GameComplete from './GameComplete.svelte';
@@ -100,7 +102,7 @@
   }
 </script>
 
-<div style="width: 100%;">
+<div style="width: 100%; min-height: 100svh; display: flex; flex-direction: column;">
   <GameHeader title="Action Potential" {onBack}>
     {#snippet right()}
       <span style="font-size: 12px; opacity: 0.7;">Attempts: {attempts}</span>
@@ -108,12 +110,13 @@
   </GameHeader>
 
   <!-- 3-column grid: empty | game | leaderboard -->
-  <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 600px) 220px; gap: 0 40px; padding: 0 24px; max-width: 1080px; margin: 0 auto;">
+  <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding-top: 24px;">
+  <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 0 40px; padding: 0 24px; max-width: 1080px; width: 100%;">
 
     <div></div>
 
     <!-- Game content -->
-    <div style="padding: 0 0 80px; position: relative; z-index: 1;">
+    <div style="padding: 0 0 80px; position: relative; z-index: 1; width: clamp(300px, 45vw, 600px);">
       {#if status === 'playing'}
         <div style="font-size: 13px; opacity: 0.7; text-align: center; margin-bottom: 14px;">
           Drag the cards into the correct order, then check
@@ -126,6 +129,7 @@
             {@const isDragging = dragState?.id === step.id}
             <div
               use:setRef={step.id}
+              animate:flip={{ duration: isDragging ? 0 : 220, easing: cubicOut }}
               role="button"
               tabindex={i}
               class="bio-card"
@@ -184,5 +188,6 @@
     <!-- Leaderboard -->
     <GameLeaderboard gameKey="ordering" {scores} />
 
+  </div>
   </div>
 </div>

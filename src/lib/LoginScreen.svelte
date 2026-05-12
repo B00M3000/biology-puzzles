@@ -88,13 +88,13 @@
 
   <!-- Group name entry -->
   <div class="bio-card" style="padding: 22px 24px; background: #fdfaf3;">
-    <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Your group name</div>
+    <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Group members</div>
     <div style="display: flex; gap: 10px;">
       <input
         bind:value={groupName}
         onkeydown={(e) => e.key === 'Enter' && start()}
-        placeholder="e.g. Team Synapse"
-        maxlength={30}
+        placeholder="e.g. Alice, Bob, Charlie"
+        maxlength={80}
         style="
           flex: 1;
           padding: 10px 12px;
@@ -115,7 +115,7 @@
       >Start →</button>
     </div>
     <div style="font-size: 11px; opacity: 0.5; margin-top: 8px; line-height: 1.4;">
-      This will appear on the leaderboard — use your group's names or a team name.
+      Enter your names separated by commas — this will appear on the leaderboard.
     </div>
   </div>
 

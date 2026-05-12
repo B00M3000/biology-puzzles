@@ -5,7 +5,7 @@
   let { onNav, scores, completedGames, groupName, onLogout, onClear } = $props();
 
   const games = [
-    { id: 'binsort',     title: 'True or False',   desc: 'Sort 16 statements into the right bin.',  icon: Boxes,       accent: '#e84a3f', time: '75s' },
+    { id: 'binsort',     title: 'True or False',   desc: 'Sort 16 statements into the right bin.',  icon: Boxes,       accent: '#e84a3f', time: '90s' },
     { id: 'connections', title: 'Connections',      desc: 'Find the four hidden groups of four.',    icon: Grid3x3,     accent: '#0d8b8b', time: '∞'   },
     { id: 'ordering',    title: 'Action Potential', desc: 'Arrange the steps of nerve signaling.',  icon: ListOrdered, accent: '#d4a437', time: '∞'   },
   ];

@@ -66,7 +66,7 @@
   }
 </script>
 
-<div style="width: 100%;">
+<div style="width: 100%; min-height: 100svh; display: flex; flex-direction: column;">
   <GameHeader title="True or False" {onBack}>
     {#snippet right()}
       <div style="display: flex; align-items: center; gap: 6px; justify-content: flex-end;">
@@ -77,12 +77,13 @@
   </GameHeader>
 
   <!-- 3-column grid: empty | game | leaderboard -->
-  <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 560px) 220px; gap: 0 40px; padding: 0 24px; max-width: 1080px; margin: 0 auto;">
+  <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding-top: 24px;">
+  <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 0 40px; padding: 0 24px; max-width: 1080px; width: 100%;">
 
     <div></div>
 
     <!-- Game content -->
-    <div style="padding: 0 0 80px; position: relative; z-index: 1;">
+    <div style="padding: 0 0 80px; position: relative; z-index: 1; width: clamp(300px, 45vw, 560px);">
       {#if status === 'playing' && current}
         <div style="font-size: 12px; opacity: 0.6; text-align: center; margin-bottom: 10px; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600;">
           Statement {idx + 1} of {items.length} · Wrong = −3s
@@ -164,5 +165,6 @@
     <!-- Leaderboard -->
     <GameLeaderboard gameKey="binsort" {scores} />
 
+  </div>
   </div>
 </div>

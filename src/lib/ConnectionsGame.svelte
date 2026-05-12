@@ -101,16 +101,17 @@
   }
 </script>
 
-<div style="width: 100%;">
+<div style="width: 100%; min-height: 100svh; display: flex; flex-direction: column;">
   <GameHeader title="Connections" {onBack} />
 
   <!-- 3-column grid: empty | game | leaderboard -->
-  <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 640px) 220px; gap: 0 40px; padding: 0 24px; max-width: 1080px; margin: 0 auto;">
+  <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding-top: 24px;">
+  <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 0 40px; padding: 0 24px; max-width: 1080px; width: 100%;">
 
     <div></div>
 
     <!-- Game content -->
-    <div style="padding: 0 0 80px; position: relative; z-index: 1;">
+    <div style="padding: 0 0 80px; position: relative; z-index: 1; width: clamp(300px, 45vw, 640px);">
       {#if status === 'playing'}
         <div class="bio-nyt-font" style="font-size: 15px; text-align: center; margin-bottom: 20px; font-weight: 500;">
           Create four groups of four!
@@ -216,5 +217,6 @@
     <!-- Leaderboard -->
     <GameLeaderboard gameKey="connections" {scores} />
 
+  </div>
   </div>
 </div>

@@ -1,11 +1,11 @@
 secret:
-  code: "BIO1010101001010101"
-  message: "Great work studying — you're going to ace this test!"
+  code: "93PL4"
+  message: "Great job!"
 
 settings:
   title: "Enzymes & Neurons"
   subtitle: "Three puzzles. Pick your poison."
-  bin_sort_time: 75
+  bin_sort_time: 90
 
 bins:
   - id: "true"
@@ -82,6 +82,54 @@ bin_items:
     label: "Neurotransmitters travel down the axon to reach the next neuron."
     bin: "false"
     explain: "False — the action potential travels down the axon; neurotransmitters cross the synapse."
+  - id: s17
+    label: "Competitive inhibitors mimic the substrate and block the active site."
+    bin: "true"
+    explain: "Correct — they compete directly with the substrate for the same binding site."
+  - id: s18
+    label: "Myelin sheath speeds up action potential conduction along an axon."
+    bin: "true"
+    explain: "Yes — saltatory conduction jumps between nodes of Ranvier, greatly increasing speed."
+  - id: s19
+    label: "The Na⁺/K⁺ pump moves 3 Na⁺ out and 2 K⁺ in per ATP."
+    bin: "true"
+    explain: "Correct — the unequal exchange contributes to the negative resting potential."
+  - id: s20
+    label: "Allosteric inhibitors bind at a site other than the active site."
+    bin: "true"
+    explain: "Yes — allosteric means 'other site'; binding there changes the enzyme's shape."
+  - id: s21
+    label: "Neurotransmitters bind to receptors on the postsynaptic membrane."
+    bin: "true"
+    explain: "Correct — they diffuse across the synaptic cleft and bind postsynaptic receptors."
+  - id: s22
+    label: "A substrate concentration that saturates all active sites limits reaction rate."
+    bin: "true"
+    explain: "Yes — that maximum rate is called Vmax; adding more substrate beyond that point does nothing."
+  - id: s23
+    label: "Competitive inhibition can be overcome by increasing substrate concentration."
+    bin: "true"
+    explain: "Correct — extra substrate out-competes the inhibitor for the active site."
+  - id: s24
+    label: "Myelinated neurons conduct signals more slowly than unmyelinated ones."
+    bin: "false"
+    explain: "False — myelin dramatically speeds conduction through saltatory propagation."
+  - id: s25
+    label: "Inhibitory neurotransmitters cause the postsynaptic neuron to depolarize."
+    bin: "false"
+    explain: "False — they hyperpolarize the postsynaptic cell, making it less likely to fire."
+  - id: s26
+    label: "The refractory period allows a neuron to fire again immediately after an action potential."
+    bin: "false"
+    explain: "False — the refractory period temporarily prevents re-firing, limiting signal frequency."
+  - id: s27
+    label: "Allosteric inhibitors compete with the substrate for the active site."
+    bin: "false"
+    explain: "False — allosteric inhibitors bind a different site and change shape; that's what distinguishes them from competitive inhibitors."
+  - id: s28
+    label: "Increasing temperature always increases enzyme reaction rate."
+    bin: "false"
+    explain: "False — above the optimum temperature the enzyme denatures and activity drops sharply."
 
 connections_groups:
   - name: "Enzyme catalysis components"
