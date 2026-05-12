@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
+import { viteSingleFile } from 'vite-plugin-singlefile'
 import yaml from 'js-yaml'
 
 const yamlPlugin = () => ({
@@ -14,6 +15,5 @@ const yamlPlugin = () => ({
 });
 
 export default defineConfig({
-  base: './',
-  plugins: [svelte(), yamlPlugin()],
+  plugins: [svelte(), yamlPlugin(), viteSingleFile()],
 })

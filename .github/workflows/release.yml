@@ -25,11 +25,11 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Zip dist
-        run: cd dist && zip -r ../biology-puzzles-${{ github.ref_name }}.zip .
+      - name: Rename output
+        run: cp dist/index.html biology-puzzles-${{ github.ref_name }}.html
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: biology-puzzles-${{ github.ref_name }}.zip
+          files: biology-puzzles-${{ github.ref_name }}.html
           generate_release_notes: true
