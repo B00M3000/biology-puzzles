@@ -85,7 +85,7 @@
   <div class="bio-grain"></div>
 
   {#if !groupName}
-    <LoginScreen onLogin={login} />
+    <LoginScreen onLogin={login} onClear={clearScores} />
   {:else if view === 'hub'}
     <Hub
       onNav={(id) => { view = id; }}

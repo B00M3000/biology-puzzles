@@ -14,5 +14,6 @@ const yamlPlugin = () => ({
 });
 
 export default defineConfig({
+  base: './',
   plugins: [svelte(), yamlPlugin()],
 })

@@ -1,5 +1,5 @@
 <script>
-  let { onLogin } = $props();
+  let { onLogin, onClear } = $props();
 
   let groupName = $state('');
 
@@ -8,7 +8,55 @@
     if (!name) return;
     onLogin(name);
   }
+
+  // Two-stage clear modal: 'hidden' | 'stage1' | 'stage2'
+  let clearStage = $state('hidden');
+
+  function confirmClear() {
+    clearStage = 'hidden';
+    onClear();
+  }
 </script>
+
+<!-- Two-stage clear-scores modal -->
+{#if clearStage !== 'hidden'}
+  <div
+    role="dialog"
+    aria-modal="true"
+    style="position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 24px;"
+    onclick={(e) => { if (e.target === e.currentTarget) clearStage = 'hidden'; }}
+  >
+    <div style="position: absolute; inset: 0; background: #1a1a2e44; backdrop-filter: blur(2px);"></div>
+
+    {#if clearStage === 'stage1'}
+      <div class="bio-card bio-slide-in" style="position: relative; z-index: 1; background: #fdfaf3; padding: 32px 28px; max-width: 360px; width: 100%; text-align: center;">
+        <div class="bio-display" style="font-size: 22px; font-weight: 700; margin-bottom: 10px; line-height: 1.2;">
+          Would Ms. Sundberg approve of this behavior?
+        </div>
+        <p style="font-size: 13px; opacity: 0.6; margin: 0 0 24px; line-height: 1.5;">
+          All scores will be permanently cleared.
+        </p>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+          <button onclick={() => { clearStage = 'hidden'; }} class="bio-btn" style="background: #fdfaf3; color: #1a1a2e; box-shadow: 3px 3px 0 #1a1a2e44;">Cancel</button>
+          <button onclick={() => { clearStage = 'stage2'; }} class="bio-btn" style="background: #e84a3f; border-color: #e84a3f;">Continue</button>
+        </div>
+      </div>
+    {:else}
+      <div class="bio-card bio-slide-in" style="position: relative; z-index: 1; background: #fdfaf3; padding: 32px 28px; max-width: 380px; width: 100%; text-align: center;">
+        <div class="bio-display" style="font-size: 22px; font-weight: 700; margin-bottom: 10px; line-height: 1.2;">
+          Would Ms. Sundberg <em>REALLY REALLY</em> approve of this behavior?
+        </div>
+        <p style="font-size: 13px; opacity: 0.6; margin: 0 0 24px; line-height: 1.5;">
+          This is your last chance. All scores gone forever.
+        </p>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+          <button onclick={() => { clearStage = 'hidden'; }} class="bio-btn" style="background: #fdfaf3; color: #1a1a2e; box-shadow: 3px 3px 0 #1a1a2e44;">Cancel</button>
+          <button onclick={confirmClear} class="bio-btn" style="background: #e84a3f; border-color: #e84a3f;">Clear scores</button>
+        </div>
+      </div>
+    {/if}
+  </div>
+{/if}
 
 <div class="bio-slide-in" style="min-height: 100svh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; position: relative; z-index: 1;">
 <div style="width: 100%; max-width: 480px;">
@@ -72,6 +120,13 @@
     <div style="font-size: 11px; opacity: 0.5; margin-top: 8px; line-height: 1.4;">
       This will appear on the leaderboard — use your group's names or a team name.
     </div>
+  </div>
+
+  <div style="margin-top: 20px; text-align: center;">
+    <button
+      onclick={() => { clearStage = 'stage1'; }}
+      style="background: none; border: none; cursor: pointer; font-size: 10px; opacity: 0.28; color: #1a1a2e; font-family: 'DM Sans', sans-serif; text-decoration: underline; padding: 2px 0;"
+    >Clear all scores</button>
   </div>
 
 </div>
