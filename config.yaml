@@ -1,0 +1,118 @@
+secret:
+  code: "BIO101"
+  message: "Great work studying — you're going to ace this test!"
+
+settings:
+  title: "Enzymes & Neurons"
+  subtitle: "Three puzzles. Pick your poison."
+  bin_sort_time: 75
+
+bins:
+  - id: "true"
+    name: "True"
+    accent: "#15803d"
+    bg: "#dcfce7"
+  - id: "false"
+    name: "False"
+    accent: "#c2410c"
+    bg: "#fee2e2"
+
+bin_items:
+  - id: s1
+    label: "Enzymes lower the activation energy of a reaction."
+    bin: "true"
+    explain: "Right — that's the whole mechanism."
+  - id: s2
+    label: "Enzymes are not consumed in the reactions they catalyze."
+    bin: "true"
+    explain: "Correct — catalysts are reused many times."
+  - id: s3
+    label: "Most enzymes are proteins folded into a specific 3D shape."
+    bin: "true"
+    explain: "Yes — shape determines function."
+  - id: s4
+    label: "The active site is where the substrate binds."
+    bin: "true"
+    explain: "Correct — induced fit happens here."
+  - id: s5
+    label: "At rest, the inside of a neuron is more negative than the outside."
+    bin: "true"
+    explain: "Yes — about −70 mV."
+  - id: s6
+    label: "Voltage-gated Na⁺ channels open during depolarization."
+    bin: "true"
+    explain: "Correct — that's what causes the spike."
+  - id: s7
+    label: "K⁺ flowing out of the cell causes repolarization."
+    bin: "true"
+    explain: "Yes — K⁺ efflux restores the negative interior."
+  - id: s8
+    label: "Ca²⁺ entry at the axon terminal triggers neurotransmitter release."
+    bin: "true"
+    explain: "Correct — Ca²⁺ binds vesicle proteins to fuse them."
+  - id: s9
+    label: "Enzymes change the overall energy released by a reaction."
+    bin: "false"
+    explain: "False — enzymes only lower activation energy, not ΔG."
+  - id: s10
+    label: "Enzymes work equally well at any temperature or pH."
+    bin: "false"
+    explain: "False — each enzyme has optimal conditions; extremes denature them."
+  - id: s11
+    label: "An enzyme is used up after catalyzing one reaction."
+    bin: "false"
+    explain: "False — enzymes are reusable; that's why they're catalysts."
+  - id: s12
+    label: "Enzymes can catalyze any chemical reaction."
+    bin: "false"
+    explain: "False — they're highly specific to their substrate."
+  - id: s13
+    label: "The Na⁺/K⁺ pump moves ions down their concentration gradients."
+    bin: "false"
+    explain: "False — it actively pumps against gradients using ATP."
+  - id: s14
+    label: "Action potentials vary in size depending on stimulus strength."
+    bin: "false"
+    explain: "False — they're all-or-nothing; strength is coded by frequency."
+  - id: s15
+    label: "Na⁺ flows out of the cell during depolarization."
+    bin: "false"
+    explain: "False — Na⁺ flows IN, making the inside positive."
+  - id: s16
+    label: "Neurotransmitters travel down the axon to reach the next neuron."
+    bin: "false"
+    explain: "False — the action potential travels down the axon; neurotransmitters cross the synapse."
+
+connections_groups:
+  - name: "Enzyme catalysis components"
+    terms: ["Active site", "Substrate", "Cofactor", "Product"]
+    accent: "#8d7000"
+    bg: "#f9df6d"
+  - name: "Action potential phases"
+    terms: ["Resting", "Depolarization", "Repolarization", "Hyperpolarization"]
+    accent: "#4a6a1f"
+    bg: "#a0c35a"
+  - name: "Ions in neuron signaling"
+    terms: ["Sodium", "Potassium", "Calcium", "Chloride"]
+    accent: "#2f4a99"
+    bg: "#b0c4ef"
+  - name: "Synaptic transmission parts"
+    terms: ["Vesicle", "Neurotransmitter", "Receptor", "Synaptic cleft"]
+    accent: "#7a4f87"
+    bg: "#ba81c5"
+
+order_steps:
+  - id: 1
+    text: "Neuron at rest (~−70 mV); Na⁺/K⁺ pump maintains gradients"
+  - id: 2
+    text: "Stimulus depolarizes membrane to threshold (~−55 mV)"
+  - id: 3
+    text: "Voltage-gated Na⁺ channels open; Na⁺ rushes in"
+  - id: 4
+    text: "Membrane reaches peak depolarization (~+30 mV)"
+  - id: 5
+    text: "Na⁺ channels inactivate; voltage-gated K⁺ channels open"
+  - id: 6
+    text: "K⁺ flows out, repolarizing the membrane"
+  - id: 7
+    text: "Brief hyperpolarization, then return to resting potential"
