@@ -26,7 +26,7 @@ jobs:
         run: npm run build
 
       - name: Zip dist
-        run: zip -r biology-puzzles-${{ github.ref_name }}.zip dist/
+        run: cd dist && zip -r ../biology-puzzles-${{ github.ref_name }}.zip .
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
