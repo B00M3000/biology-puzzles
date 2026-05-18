@@ -137,15 +137,15 @@ connections_groups:
     accent: "#8d7000"
     bg: "#f9df6d"
   - name: "Action potential phases"
-    terms: ["Resting", "Depolarization", "Repolarization", "Hyperpolarization"]
+    terms: ["Resting", "Depolarized", "Repolarized", "Hyperpolarized"]
     accent: "#4a6a1f"
     bg: "#a0c35a"
   - name: "Ions in neuron signaling"
-    terms: ["Sodium", "Potassium", "Calcium", "Chloride"]
+    terms: ["Sodium", "Potassium", "Calcium", "Proton"]
     accent: "#2f4a99"
     bg: "#b0c4ef"
-  - name: "Synaptic transmission parts"
-    terms: ["Vesicle", "Neurotransmitter", "Receptor", "Synaptic cleft"]
+  - name: "Organelles"
+    terms: ["Nucleus", "Endoplasmic reticulum", "Golgi apparatus", "Ribosome"]
     accent: "#7a4f87"
     bg: "#ba81c5"
 

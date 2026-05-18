@@ -1,19 +1,18 @@
 <script>
-  import { Boxes, Grid3x3, ListOrdered, Lock, Check, LogOut } from 'lucide-svelte';
+  import { Grid3x3, ListOrdered, Check, LogOut } from 'lucide-svelte';
   import config from '../../config.yaml';
 
   let { onNav, scores, completedGames, groupName, onLogout, onClear } = $props();
 
   const games = [
-    { id: 'binsort',     title: 'True or False',   desc: 'Sort 16 statements into the right bin.',  icon: Boxes,       accent: '#e84a3f', time: '90s' },
-    { id: 'connections', title: 'Connections',      desc: 'Find the four hidden groups of four.',    icon: Grid3x3,     accent: '#0d8b8b', time: '∞'   },
-    { id: 'ordering',    title: 'Action Potential', desc: 'Arrange the steps of nerve signaling.',  icon: ListOrdered, accent: '#d4a437', time: '∞'   },
+    { id: 'connections', title: 'Connections',      desc: 'Find the four hidden groups of four.',    icon: Grid3x3,     accent: '#0d8b8b', time: '∞' },
+    { id: 'ordering',    title: 'Action Potential', desc: 'Arrange the steps of nerve signaling.',  icon: ListOrdered, accent: '#d4a437', time: '∞' },
   ];
 
   let completedCount = $derived(
     Object.values(completedGames).filter(Boolean).length
   );
-  let allCompleted = $derived(completedCount === 3);
+  let allCompleted = $derived(completedCount === 2);
 
   // Code reveal state
   let showCode = $state(false);
@@ -120,7 +119,7 @@
     </div>
     <div style="flex: 1; min-width: 0;">
       <div style="font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{groupName}</div>
-      <div style="font-size: 11px; opacity: 0.5;">{completedCount}/3 puzzles complete</div>
+      <div style="font-size: 11px; opacity: 0.5;">{completedCount}/2 puzzles complete</div>
     </div>
     <button
       onclick={onLogout}
@@ -186,7 +185,7 @@
     {/if}
   {:else}
     <div style="margin-top: 18px; padding: 12px 16px; background: #1a1a2e0a; border-radius: 10px; text-align: center; font-size: 12.5px; opacity: 0.6; line-height: 1.5;">
-      Complete all three puzzles to unlock the secret code.
+      Complete both puzzles to unlock the secret code.
     </div>
   {/if}
 

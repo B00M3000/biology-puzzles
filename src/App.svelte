@@ -2,19 +2,18 @@
   import { onMount } from 'svelte';
   import LoginScreen from './lib/LoginScreen.svelte';
   import Hub from './lib/Hub.svelte';
-  import BinSortGame from './lib/BinSortGame.svelte';
   import ConnectionsGame from './lib/ConnectionsGame.svelte';
   import OrderingGame from './lib/OrderingGame.svelte';
 
   let view = $state('hub');
   let groupName = $state(null);
-  let completedGames = $state({ binsort: false, connections: false, ordering: false });
-  let scores = $state({ binsort: [], connections: [], ordering: [] });
+  let completedGames = $state({ connections: false, ordering: false });
+  let scores = $state({ connections: [], ordering: [] });
 
-  const KEYS = ['binsort', 'connections', 'ordering'];
+  const KEYS = ['connections', 'ordering'];
 
   const loadScores = () => {
-    const out = { binsort: [], connections: [], ordering: [] };
+    const out = { connections: [], ordering: [] };
     for (const key of KEYS) {
       try {
         const val = localStorage.getItem(`leaderboard:${key}`);
@@ -27,7 +26,6 @@
   const loadSession = () => {
     groupName = localStorage.getItem('group:name') || null;
     completedGames = {
-      binsort:     localStorage.getItem('completed:binsort')     === 'true',
       connections: localStorage.getItem('completed:connections') === 'true',
       ordering:    localStorage.getItem('completed:ordering')    === 'true',
     };
@@ -44,7 +42,7 @@
     groupName = null;
     view = 'hub';
     localStorage.removeItem('group:name');
-    completedGames = { binsort: false, connections: false, ordering: false };
+    completedGames = { connections: false, ordering: false };
     for (const key of KEYS) {
       localStorage.removeItem(`completed:${key}`);
     }
@@ -81,7 +79,7 @@
     for (const key of KEYS) {
       localStorage.removeItem(`leaderboard:${key}`);
     }
-    scores = { binsort: [], connections: [], ordering: [] };
+    scores = { connections: [], ordering: [] };
   };
 
   onMount(() => {
@@ -103,14 +101,6 @@
       {groupName}
       onLogout={logout}
       onClear={clearScores}
-    />
-  {:else if view === 'binsort'}
-    <BinSortGame
-      onBack={() => { view = 'hub'; loadScores(); }}
-      onScore={recordScore}
-      onComplete={markComplete}
-      scores={scores.binsort}
-      {groupName}
     />
   {:else if view === 'connections'}
     <ConnectionsGame
