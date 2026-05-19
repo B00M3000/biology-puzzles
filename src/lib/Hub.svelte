@@ -37,6 +37,9 @@
 
   // Group initial for avatar
   let initial = $derived(groupName?.[0]?.toUpperCase() ?? '?');
+
+  let connEntries  = $derived((scores.connections || []).slice().sort((a, b) => a.score - b.score).slice(0, 10));
+  let orderEntries = $derived((scores.ordering    || []).slice().sort((a, b) => a.score - b.score).slice(0, 10));
 </script>
 
 <!-- Logout reminder (shown before code is revealed) -->
@@ -56,7 +59,7 @@
         When your group is done, please <strong>log out</strong> so the next group gets a fresh start!
       </p>
       <button onclick={acknowledgeAndShowCode} class="bio-btn" style="width: 100%;">
-        Got it — show the code
+        Got it — show the message
       </button>
     </div>
   </div>
@@ -101,6 +104,24 @@
     {/if}
   </div>
 {/if}
+
+<!-- Connections leaderboard (fixed left) -->
+<div style="position: fixed; left: 24px; top: 24px; z-index: 10; width: 180px;">
+  <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1a1a2e; opacity: 0.6; margin-bottom: 12px;">Connections</div>
+  <div style="font-size: 10px; text-align: right; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.5; color: #1a1a2e;">Mistakes</div>
+  {#if connEntries.length === 0}
+    <div style="font-size: 11px; opacity: 0.45; text-align: center; padding: 8px 0;">No scores yet.</div>
+  {:else}
+    {#each connEntries as s, i}
+      {@const medal = ['#d4a437', '#94a3b8', '#a16207'][i]}
+      <div style="display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: {i < connEntries.length - 1 ? '1px solid #1a1a2e15' : 'none'};">
+        <div style="width: 14px; font-size: 10px; color: {medal ?? '#1a1a2e'}; opacity: {medal ? 0.9 : 0.5}; font-weight: 700; flex-shrink: 0;">{i + 1}</div>
+        <div style="flex: 1; font-size: 11px; opacity: 0.7; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #1a1a2e;">{s.name}</div>
+        <div class="bio-display" style="font-size: 13px; font-weight: 700; opacity: 0.8; flex-shrink: 0; color: #1a1a2e;">{s.score}</div>
+      </div>
+    {/each}
+  {/if}
+</div>
 
 <div class="bio-slide-in" style="min-height: 100svh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; position: relative; z-index: 1;">
 <div style="width: 100%; max-width: 480px;">
@@ -165,9 +186,8 @@
   {#if allCompleted}
     {#if showCode}
       <div class="bio-slide-in bio-card" style="margin-top: 24px; padding: 28px 24px; text-align: center; background: #1a1a2e; border-color: #1a1a2e; box-shadow: 5px 5px 0 #d4a437; color: #f4ede1;">
-        <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6; margin-bottom: 10px;">Your Secret Code</div>
-        <div class="bio-display" style="font-size: 56px; font-weight: 800; letter-spacing: 0.12em; color: #d4a437; line-height: 1;">{config.secret.code}</div>
-        <div style="font-size: 12px; opacity: 0.55; margin-top: 10px;">{config.secret.message}</div>
+        <div style="font-size: 22px; margin-bottom: 12px;">🎉</div>
+        <div class="bio-display" style="font-size: 24px; font-weight: 800; color: #d4a437; line-height: 1.2;">{config.secret.message}</div>
         <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #ffffff18; font-size: 12px; opacity: 0.5;">
           Remember to <strong style="opacity: 0.9;">log out</strong> when your group is done!
         </div>
@@ -180,7 +200,7 @@
       >
         <div style="font-size: 22px; margin-bottom: 6px;">🎉</div>
         <div class="bio-display" style="font-size: 18px; font-weight: 700;">All puzzles complete!</div>
-        <div style="font-size: 13px; opacity: 0.6; margin-top: 4px;">Tap to reveal your secret code →</div>
+        <div style="font-size: 13px; opacity: 0.6; margin-top: 4px;">Tap to reveal your message →</div>
       </button>
     {/if}
   {:else}
@@ -198,4 +218,22 @@
   </div>
 
 </div>
+</div>
+
+<!-- Action Potential leaderboard (fixed right) -->
+<div style="position: fixed; right: 24px; top: 24px; z-index: 10; width: 180px;">
+  <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1a1a2e; opacity: 0.6; margin-bottom: 12px;">Action Potential</div>
+  <div style="font-size: 10px; text-align: right; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.5; color: #1a1a2e;">Attempts</div>
+  {#if orderEntries.length === 0}
+    <div style="font-size: 11px; opacity: 0.45; text-align: center; padding: 8px 0;">No scores yet.</div>
+  {:else}
+    {#each orderEntries as s, i}
+      {@const medal = ['#d4a437', '#94a3b8', '#a16207'][i]}
+      <div style="display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: {i < orderEntries.length - 1 ? '1px solid #1a1a2e15' : 'none'};">
+        <div style="width: 14px; font-size: 10px; color: {medal ?? '#1a1a2e'}; opacity: {medal ? 0.9 : 0.5}; font-weight: 700; flex-shrink: 0;">{i + 1}</div>
+        <div style="flex: 1; font-size: 11px; opacity: 0.7; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #1a1a2e;">{s.name}</div>
+        <div class="bio-display" style="font-size: 13px; font-weight: 700; opacity: 0.8; flex-shrink: 0; color: #1a1a2e;">{s.score}</div>
+      </div>
+    {/each}
+  {/if}
 </div>

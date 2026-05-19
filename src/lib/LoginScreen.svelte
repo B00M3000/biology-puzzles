@@ -1,13 +1,25 @@
 <script>
-  let { onLogin, onClear } = $props();
+  import { SECRET_CODE } from './data.js';
+
+  let { onLogin, onClear, scores = { connections: [], ordering: [] } } = $props();
 
   let groupName = $state('');
+  let accessCode = $state('');
+  let codeError = $state(false);
 
   function start() {
     const name = groupName.trim();
     if (!name) return;
+    if (accessCode.trim().toUpperCase() !== SECRET_CODE.toUpperCase()) {
+      codeError = true;
+      return;
+    }
+    codeError = false;
     onLogin(name);
   }
+
+  let connEntries  = $derived((scores.connections || []).slice().sort((a, b) => a.score - b.score).slice(0, 10));
+  let orderEntries = $derived((scores.ordering    || []).slice().sort((a, b) => a.score - b.score).slice(0, 10));
 
   // Two-stage clear modal: 'hidden' | 'stage1' | 'stage2'
   let clearStage = $state('hidden');
@@ -58,6 +70,24 @@
   </div>
 {/if}
 
+<!-- Connections leaderboard (fixed left) -->
+<div style="position: fixed; left: 24px; top: 24px; z-index: 10; width: 180px;">
+  <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1a1a2e; opacity: 0.6; margin-bottom: 12px;">Connections</div>
+  <div style="font-size: 10px; text-align: right; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.5; color: #1a1a2e;">Mistakes</div>
+  {#if connEntries.length === 0}
+    <div style="font-size: 11px; opacity: 0.45; text-align: center; padding: 8px 0;">No scores yet.</div>
+  {:else}
+    {#each connEntries as s, i}
+      {@const medal = ['#d4a437', '#94a3b8', '#a16207'][i]}
+      <div style="display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: {i < connEntries.length - 1 ? '1px solid #1a1a2e15' : 'none'};">
+        <div style="width: 14px; font-size: 10px; color: {medal ?? '#1a1a2e'}; opacity: {medal ? 0.9 : 0.5}; font-weight: 700; flex-shrink: 0;">{i + 1}</div>
+        <div style="flex: 1; font-size: 11px; opacity: 0.7; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #1a1a2e;">{s.name}</div>
+        <div class="bio-display" style="font-size: 13px; font-weight: 700; opacity: 0.8; flex-shrink: 0; color: #1a1a2e;">{s.score}</div>
+      </div>
+    {/each}
+  {/if}
+</div>
+
 <div class="bio-slide-in" style="min-height: 100svh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; position: relative; z-index: 1;">
 <div style="width: 100%; max-width: 480px;">
 
@@ -89,34 +119,63 @@
   <!-- Group name entry -->
   <div class="bio-card" style="padding: 22px 24px; background: #fdfaf3;">
     <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Group members</div>
+    <input
+      bind:value={groupName}
+      onkeydown={(e) => e.key === 'Enter' && start()}
+      placeholder="e.g. Alice, Bob, Charlie"
+      maxlength={80}
+      style="
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px 12px;
+        border: 1.5px solid #1a1a2e;
+        border-radius: 8px;
+        font-size: 14px;
+        font-family: 'DM Sans', sans-serif;
+        background: #f4ede1;
+        color: #1a1a2e;
+      "
+    />
+    <div style="font-size: 11px; opacity: 0.5; margin-top: 6px; margin-bottom: 16px; line-height: 1.4;">
+      Enter your names separated by commas — this will appear on the leaderboard.
+    </div>
+
+    <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Access code</div>
     <div style="display: flex; gap: 10px;">
       <input
-        bind:value={groupName}
-        onkeydown={(e) => e.key === 'Enter' && start()}
-        placeholder="e.g. Alice, Bob, Charlie"
-        maxlength={80}
+        bind:value={accessCode}
+        onkeydown={(e) => { if (e.key === 'Enter') start(); if (codeError) codeError = false; }}
+        oninput={() => { codeError = false; }}
+        placeholder="Enter code"
+        maxlength={20}
         style="
           flex: 1;
           padding: 10px 12px;
-          border: 1.5px solid #1a1a2e;
+          border: 1.5px solid {codeError ? '#e84a3f' : '#1a1a2e'};
           border-radius: 8px;
           font-size: 14px;
           font-family: 'DM Sans', sans-serif;
-          background: #f4ede1;
+          background: {codeError ? '#fff0ef' : '#f4ede1'};
           color: #1a1a2e;
           min-width: 0;
         "
       />
       <button
         onclick={start}
-        disabled={!groupName.trim()}
+        disabled={!groupName.trim() || !accessCode.trim()}
         class="bio-btn"
         style="flex-shrink: 0;"
       >Start →</button>
     </div>
-    <div style="font-size: 11px; opacity: 0.5; margin-top: 8px; line-height: 1.4;">
-      Enter your names separated by commas — this will appear on the leaderboard.
-    </div>
+    {#if codeError}
+      <div style="font-size: 12px; color: #e84a3f; margin-top: 6px; font-weight: 600;">
+        Incorrect access code. Please try again.
+      </div>
+    {:else}
+      <div style="font-size: 11px; opacity: 0.5; margin-top: 6px; line-height: 1.4;">
+        Ask your teacher for the access code.
+      </div>
+    {/if}
   </div>
 
   <div style="margin-top: 20px; text-align: center;">
@@ -127,4 +186,22 @@
   </div>
 
 </div>
+</div>
+
+<!-- Action Potential leaderboard (fixed right) -->
+<div style="position: fixed; right: 24px; top: 24px; z-index: 10; width: 180px;">
+  <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1a1a2e; opacity: 0.6; margin-bottom: 12px;">Action Potential</div>
+  <div style="font-size: 10px; text-align: right; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.5; color: #1a1a2e;">Attempts</div>
+  {#if orderEntries.length === 0}
+    <div style="font-size: 11px; opacity: 0.45; text-align: center; padding: 8px 0;">No scores yet.</div>
+  {:else}
+    {#each orderEntries as s, i}
+      {@const medal = ['#d4a437', '#94a3b8', '#a16207'][i]}
+      <div style="display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: {i < orderEntries.length - 1 ? '1px solid #1a1a2e15' : 'none'};">
+        <div style="width: 14px; font-size: 10px; color: {medal ?? '#1a1a2e'}; opacity: {medal ? 0.9 : 0.5}; font-weight: 700; flex-shrink: 0;">{i + 1}</div>
+        <div style="flex: 1; font-size: 11px; opacity: 0.7; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #1a1a2e;">{s.name}</div>
+        <div class="bio-display" style="font-size: 13px; font-weight: 700; opacity: 0.8; flex-shrink: 0; color: #1a1a2e;">{s.score}</div>
+      </div>
+    {/each}
+  {/if}
 </div>
